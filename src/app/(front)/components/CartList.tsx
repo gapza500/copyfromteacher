@@ -3,7 +3,6 @@
 import { Table, TableHead, TableRow, TableBody, TableHeader, TableCell } from "@/components/ui/table";
 import { useCartStore } from "@/lib/cart-store";
 import { Trash } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 export default function CartList() {
