@@ -28,6 +28,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { authClient } from "@/lib/auth-client"
 
 export function NavUser({
   user,
@@ -38,6 +40,7 @@ export function NavUser({
     avatar: string
   }
 }) {
+  const router = useRouter();
   const { isMobile } = useSidebar()
 
   return (
@@ -98,7 +101,21 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={ async () => {
+              await authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.replace('/login');
+                    alert("already log out please sign in.");
+                  },
+                  onError: (error) => {
+                    console.error("Sign out error:", error);
+                    alert("Failed to log out. Please try again.");
+                  }
+                }
+              });
+              
+            }}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

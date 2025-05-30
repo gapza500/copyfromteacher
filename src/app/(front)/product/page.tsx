@@ -7,15 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { ChevronRight } from "lucide-react";
 import db from "@/db";
-import { products } from "@/db/schema";
+import { product } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import CartButton from "../components/CartButton";
 
 const Product = async() => {
-  const productss = await db.query.products.findMany({
-    orderBy: [desc(products.id)],
+  const products = await db.query.product.findMany({
+    orderBy: [desc(product.id)],
   });
 
   return (
@@ -38,7 +37,7 @@ const Product = async() => {
       </div>
 
       <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {productss.map((i) => (
+        {products.map((i) => (
           <Card key={i.id} className="shadow-none overflow-hidden rounded-md">
             <CardHeader className="p-0">
               <div className="aspect-video bg-muted w-full border-b" />

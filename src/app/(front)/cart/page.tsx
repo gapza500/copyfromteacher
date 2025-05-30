@@ -1,5 +1,6 @@
 "use client";
 
+import { useCartStore } from "@/lib/cart-store";
 import CartList from "../components/CartList";
 
 export default function Cart() {
