@@ -15,6 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("รูปแบบอีเมลไม่ถูกต้อง"),
@@ -22,6 +24,7 @@ const formSchema = z.object({
 });
 
 const Login01Page = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -29,10 +32,30 @@ const Login01Page = () => {
     },
     resolver: zodResolver(formSchema),
   });
+  
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onSubmit = async (form: z.infer<typeof formSchema>) => {
+      
+        await authClient.signIn.email({
+          email: form.email,
+          password: form.password
+        }, {
+                onRequest: (ctx) => {
+                  //show loading
+                  console.log(ctx.body);
+                },
+                onSuccess: (ctx) => {
+                  //redirect to the dashboard or sign in page
+                  console.log(ctx.data);
+                  router.replace('/dashboard');
+                },
+                onError: (ctx) => {
+                    // display the error message
+                    alert(ctx.error.message);
+                },
+        });
+      }
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -111,6 +134,7 @@ const Login01Page = () => {
     </div>
   );
 };
+
 
 
 export default Login01Page;
