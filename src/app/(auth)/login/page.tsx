@@ -34,7 +34,6 @@ const Login01Page = () => {
   });
   
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmit = async (form: z.infer<typeof formSchema>) => {
       
         await authClient.signIn.email({
